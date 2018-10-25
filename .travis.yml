@@ -1,0 +1,18 @@
+language: bash
+services: docker
+env:
+  matrix:
+  - CI=1 GEOSERVER_VERSION=2.11.2 TOMCAT_VERSION=7 JRE_VERSION=8 VARIANT=slim
+  - CI=1 GEOSERVER_VERSION=2.11.2 TOMCAT_VERSION=8 JRE_VERSION=8 VARIANT=slim
+  - CI=1 GEOSERVER_VERSION=2.11.2 TOMCAT_VERSION=9 JRE_VERSION=8 VARIANT=slim
+  - CI=1 GEOSERVER_VERSION=2.11.2 TOMCAT_VERSION=7 JRE_VERSION=8 VARIANT=alpine
+  - CI=1 GEOSERVER_VERSION=2.11.2 TOMCAT_VERSION=8 JRE_VERSION=8 VARIANT=alpine
+  - CI=1 GEOSERVER_VERSION=2.11.2 TOMCAT_VERSION=9 JRE_VERSION=8 VARIANT=alpine
+script:
+- "./scripts/cibuild"
+deploy:
+- provider: script
+  script: scripts/cipublish
+  on:
+    repo: azavea/docker-geoserver
+    branch: master
